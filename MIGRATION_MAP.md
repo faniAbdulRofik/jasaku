@@ -7,36 +7,36 @@
 - Supabase/Postgres schema: `supabase/schema.sql`
 
 ## Route Mapping
-- `index.php` -> `/` and `/index.php`
-- `login.php` -> `/login.php`
-- `register.php` -> `/register.php`
-- `forgot_password.php` -> `/forgot_password.php`
-- `reset_password.php` -> `/reset_password.php`
-- `search.php` -> `/search.php`
-- `service_detail.php?id=...` -> `/service_detail.php?id=...`
-- `customer/dashboard.php` -> `/customer/dashboard.php`
-- `customer/bookings.php` -> `/customer/bookings.php`
-- `customer/reviews.php` -> `/customer/reviews.php`
-- `customer/settings.php` -> `/customer/settings.php`
-- `provider/dashboard.php` -> `/provider/dashboard.php`
-- `provider/bookings.php` -> `/provider/bookings.php`
-- `provider/services.php` -> `/provider/services.php`
-- `provider/add_service.php` -> `/provider/add_service.php`
-- `provider/edit_service.php?id=...` -> `/provider/edit_service.php?id=...`
-- `provider/earnings.php` -> `/provider/earnings.php`
-- `provider/reviews.php` -> `/provider/reviews.php`
-- `provider/settings.php` -> `/provider/settings.php`
-- `admin/dashboard.php` -> `/admin/dashboard.php`
-- `admin/users.php` -> `/admin/users.php`
-- `admin/user_add.php` -> `/admin/user_add.php`
-- `admin/user_edit.php?id=...` -> `/admin/user_edit.php?id=...`
-- `admin/categories.php` -> `/admin/categories.php`
-- `admin/services.php` -> `/admin/services.php`
-- `admin/service_add.php` -> `/admin/service_add.php`
-- `admin/service_edit.php?id=...` -> `/admin/service_edit.php?id=...`
-- `admin/bookings.php` -> `/admin/bookings.php`
-- `admin/reports.php` -> `/admin/reports.php`
-- `admin/settings.php` -> `/admin/settings.php`
+- `index` -> `/` and `/`
+- `login` -> `/login`
+- `register` -> `/register`
+- `forgot_password` -> `/forgot_password`
+- `reset_password` -> `/reset_password`
+- `search` -> `/search`
+- `service_detail?id=...` -> `/service_detail?id=...`
+- `customer/dashboard` -> `/customer/dashboard`
+- `customer/bookings` -> `/customer/bookings`
+- `customer/reviews` -> `/customer/reviews`
+- `customer/settings` -> `/customer/settings`
+- `provider/dashboard` -> `/provider/dashboard`
+- `provider/bookings` -> `/provider/bookings`
+- `provider/services` -> `/provider/services`
+- `provider/add_service` -> `/provider/add_service`
+- `provider/edit_service?id=...` -> `/provider/edit_service?id=...`
+- `provider/earnings` -> `/provider/earnings`
+- `provider/reviews` -> `/provider/reviews`
+- `provider/settings` -> `/provider/settings`
+- `admin/dashboard` -> `/admin/dashboard`
+- `admin/users` -> `/admin/users`
+- `admin/user_add` -> `/admin/user_add`
+- `admin/user_edit?id=...` -> `/admin/user_edit?id=...`
+- `admin/categories` -> `/admin/categories`
+- `admin/services` -> `/admin/services`
+- `admin/service_add` -> `/admin/service_add`
+- `admin/service_edit?id=...` -> `/admin/service_edit?id=...`
+- `admin/bookings` -> `/admin/bookings`
+- `admin/reports` -> `/admin/reports`
+- `admin/settings` -> `/admin/settings`
 
 ## Preserved Feature Surface
 - Public landing page, search, filters, view mode, pagination, service detail, reviews, booking form.
@@ -44,4 +44,4 @@
 - Customer dashboard, bookings, cancel booking, reviews, settings/profile upload.
 - Provider dashboard, booking status updates, services CRUD/upload, earnings, reviews, settings.
 - Admin dashboard, users CRUD, categories CRUD, services CRUD, bookings, reports, settings.
-- Compatibility AJAX endpoints for legacy JavaScript: `ajax/search_services.php`, notifications, and time slots.
+- Compatibility AJAX endpoints for legacy JavaScript: `ajax/search_services`, notifications, and time slots.

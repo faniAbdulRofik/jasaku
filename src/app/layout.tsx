@@ -186,15 +186,15 @@ export default function RootLayout({
 
             const jasakuTitles = {
               '/': 'Beranda - JasaKu',
-              '/index.php': 'Beranda - JasaKu',
-              '/search.php': 'Cari Layanan - JasaKu',
-              '/login.php': 'Login - JasaKu',
-              '/register.php': 'Registrasi - JasaKu',
-              '/forgot_password.php': 'Lupa Password - JasaKu',
-              '/reset_password.php': 'Reset Password - JasaKu',
-              '/customer/dashboard.php': 'Customer Dashboard - JasaKu',
-              '/provider/dashboard.php': 'Dashboard Provider - JasaKu',
-              '/admin/dashboard.php': 'Dashboard Admin - JasaKu'
+              '/': 'Beranda - JasaKu',
+              '/search': 'Cari Layanan - JasaKu',
+              '/login': 'Login - JasaKu',
+              '/register': 'Registrasi - JasaKu',
+              '/forgot_password': 'Lupa Password - JasaKu',
+              '/reset_password': 'Reset Password - JasaKu',
+              '/customer/dashboard': 'Customer Dashboard - JasaKu',
+              '/provider/dashboard': 'Dashboard Provider - JasaKu',
+              '/admin/dashboard': 'Dashboard Admin - JasaKu'
             };
             if (jasakuTitles[window.location.pathname]) {
               document.title = jasakuTitles[window.location.pathname];
@@ -328,7 +328,7 @@ export default function RootLayout({
               }
             });
 
-            if (window.location.pathname.endsWith('/login.php')) {
+            if (window.location.pathname.endsWith('/login')) {
               document.getElementById('email')?.focus();
             }
           `}

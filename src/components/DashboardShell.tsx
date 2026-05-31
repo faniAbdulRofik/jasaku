@@ -8,27 +8,27 @@ type NavItem = {
 
 const navItems: Record<UserRole, NavItem[]> = {
   customer: [
-    { href: "/customer/dashboard.php", label: "Dashboard", icon: "fa-tachometer-alt" },
-    { href: "/customer/bookings.php", label: "My Bookings", icon: "fa-calendar" },
-    { href: "/customer/reviews.php", label: "My Reviews", icon: "fa-star" },
-    { href: "/customer/settings.php", label: "Settings", icon: "fa-cog" },
+    { href: "/customer/dashboard", label: "Dashboard", icon: "fa-tachometer-alt" },
+    { href: "/customer/bookings", label: "My Bookings", icon: "fa-calendar" },
+    { href: "/customer/reviews", label: "My Reviews", icon: "fa-star" },
+    { href: "/customer/settings", label: "Settings", icon: "fa-cog" },
   ],
   provider: [
-    { href: "/provider/dashboard.php", label: "Dashboard", icon: "fa-tachometer-alt" },
-    { href: "/provider/bookings.php", label: "Bookings", icon: "fa-calendar" },
-    { href: "/provider/services.php", label: "Layanan Saya", icon: "fa-concierge-bell" },
-    { href: "/provider/earnings.php", label: "Penghasilan", icon: "fa-money-bill" },
-    { href: "/provider/reviews.php", label: "Ulasan", icon: "fa-star" },
-    { href: "/provider/settings.php", label: "Pengaturan", icon: "fa-cog" },
+    { href: "/provider/dashboard", label: "Dashboard", icon: "fa-tachometer-alt" },
+    { href: "/provider/bookings", label: "Bookings", icon: "fa-calendar" },
+    { href: "/provider/services", label: "Layanan Saya", icon: "fa-concierge-bell" },
+    { href: "/provider/earnings", label: "Penghasilan", icon: "fa-money-bill" },
+    { href: "/provider/reviews", label: "Ulasan", icon: "fa-star" },
+    { href: "/provider/settings", label: "Pengaturan", icon: "fa-cog" },
   ],
   admin: [
-    { href: "/admin/dashboard.php", label: "Dashboard", icon: "fa-tachometer-alt" },
-    { href: "/admin/users.php", label: "Manage Users", icon: "fa-users" },
-    { href: "/admin/services.php", label: "Manage Services", icon: "fa-concierge-bell" },
-    { href: "/admin/bookings.php", label: "Manage Bookings", icon: "fa-calendar" },
-    { href: "/admin/categories.php", label: "Kategori", icon: "fa-list" },
-    { href: "/admin/reports.php", label: "Laporan", icon: "fa-chart-bar" },
-    { href: "/admin/settings.php", label: "Settings", icon: "fa-cog" },
+    { href: "/admin/dashboard", label: "Dashboard", icon: "fa-tachometer-alt" },
+    { href: "/admin/users", label: "Manage Users", icon: "fa-users" },
+    { href: "/admin/services", label: "Manage Services", icon: "fa-concierge-bell" },
+    { href: "/admin/bookings", label: "Manage Bookings", icon: "fa-calendar" },
+    { href: "/admin/categories", label: "Kategori", icon: "fa-list" },
+    { href: "/admin/reports", label: "Laporan", icon: "fa-chart-bar" },
+    { href: "/admin/settings", label: "Settings", icon: "fa-cog" },
   ],
 };
 
@@ -62,13 +62,13 @@ export function DashboardShell({ role, active, title, children }: DashboardShell
       </ul>
       <ul className="mt-8 border-t border-gray-100 pt-4 space-y-1">
         <li>
-          <a href="/index.php" className="flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-gray-100 text-gray-700">
+          <a href="/" className="flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-gray-100 text-gray-700">
             <i className="fas fa-home w-5 text-center mr-3" />
             <span className="font-medium">{homeLabel}</span>
           </a>
         </li>
         <li>
-          <a href="/logout.php" className="flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-red-50 text-red-600">
+          <a href="/logout" className="flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-red-50 text-red-600">
             <i className="fas fa-sign-out-alt w-5 text-center mr-3" />
             <span className="font-medium">{logoutLabel}</span>
           </a>

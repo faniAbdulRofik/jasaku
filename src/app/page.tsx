@@ -48,7 +48,7 @@ export default async function Home() {
 
           <div className="w-full mx-auto" data-aos="fade-up" data-aos-delay="200">
             <div className="bg-white rounded-2xl shadow-2xl p-4 w-full max-w-4xl mx-auto">
-              <form id="searchForm" action="/search.php" method="GET" className="flex flex-col md:flex-row gap-4 w-full">
+              <form id="searchForm" action="/search" method="GET" className="flex flex-col md:flex-row gap-4 w-full">
                 <div className="flex-1 relative">
                   <i className="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input type="text" name="keyword" placeholder="Cari jasa apa yang Anda butuhkan?" className="w-full pl-12 pr-4 py-3 text-gray-700 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
@@ -143,7 +143,7 @@ export default async function Home() {
               <p className="text-lg text-gray-600">Penyedia jasa terbaik dengan rating tertinggi</p>
             </div>
             <a
-              href="/search.php"
+              href="/search"
               className="group relative z-10 mt-2 md:mt-0 inline-flex items-center px-2 py-2 text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200"
             >
               <span>LIHAT SEMUA</span>
@@ -153,7 +153,7 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
             {featuredServices.map((service, index) => (
-              <a key={service.id} href={`/service_detail.php?id=${service.id}`} className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-hidden border border-gray-100 w-full relative transform hover:-translate-y-2 hover:scale-[1.03] will-change-transform" data-aos="fade-up" data-aos-delay={index * 100}>
+              <a key={service.id} href={`/service_detail?id=${service.id}`} className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-hidden border border-gray-100 w-full relative transform hover:-translate-y-2 hover:scale-[1.03] will-change-transform" data-aos="fade-up" data-aos-delay={index * 100}>
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/10 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
                 <div className="relative w-full h-48 overflow-hidden z-10">
                   <img src={imagePath(service.image)} alt={service.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
@@ -213,8 +213,8 @@ export default async function Home() {
           <h2 className="text-3xl md:text-4xl text-yellow font-bold mb-6">Siap Memulai?</h2>
           <p className="text-xl text-blue-100 mb-8 mx-auto">Bergabunglah dengan ribuan pelanggan yang telah merasakan kemudahan menggunakan BookingJasa</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full" data-aos="fade-up" data-aos-delay="100">
-            <a href="/register.php?role=customer" className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all transform hover:scale-105">Daftar Sebagai Pelanggan</a>
-            <a href="/register.php?role=provider" className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all transform hover:scale-105">Daftar Sebagai Provider</a>
+            <a href="/register?role=customer" className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all transform hover:scale-105">Daftar Sebagai Pelanggan</a>
+            <a href="/register?role=provider" className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all transform hover:scale-105">Daftar Sebagai Provider</a>
           </div>
         </div>
       </section>

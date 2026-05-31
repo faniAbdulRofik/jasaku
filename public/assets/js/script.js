@@ -219,7 +219,7 @@ function performSearch() {
   showLoading("#searchResults")
 
   $.ajax({
-    url: "/ajax/search_services.php",
+    url: "/ajax/search_services",
     method: "GET",
     data: formData,
     dataType: "json",
@@ -307,7 +307,7 @@ function createServiceCard(service) {
                     
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="service-price">${price}</div>
-                        <a href="/service_detail.php?id=${service.id}" class="btn btn-primary btn-sm">
+                        <a href="/service_detail?id=${service.id}" class="btn btn-primary btn-sm">
                             Lihat Detail
                         </a>
                     </div>
@@ -322,7 +322,7 @@ function createServiceCard(service) {
  */
 function loadFeaturedServices() {
   $.ajax({
-    url: "/ajax/get_featured_services.php",
+    url: "/ajax/get_featured_services",
     method: "GET",
     dataType: "json",
     success: (response) => {
@@ -355,7 +355,7 @@ function displayFeaturedServices(services) {
  */
 function loadCategories() {
   $.ajax({
-    url: "/ajax/get_categories.php",
+    url: "/ajax/get_categories",
     method: "GET",
     dataType: "json",
     success: (response) => {
@@ -379,7 +379,7 @@ function displayCategories(categories) {
   categories.forEach((category) => {
     html += `
             <div class="col-lg-2 col-md-4 col-6 mb-4">
-                <a href="/search.php?category=${category.id}" class="category-card">
+                <a href="/search?category=${category.id}" class="category-card">
                     <div class="category-icon">
                         <i class="${category.icon}"></i>
                     </div>
@@ -412,7 +412,7 @@ function submitBooking() {
   const formData = new FormData(form[0])
 
   $.ajax({
-    url: "/ajax/create_booking.php",
+    url: "/ajax/create_booking",
     method: "POST",
     data: formData,
     processData: false,
@@ -422,7 +422,7 @@ function submitBooking() {
       if (response.success) {
         showSuccess("Booking berhasil dibuat! Anda akan diarahkan ke halaman pembayaran.")
         setTimeout(() => {
-          window.location.href = "/customer/bookings.php"
+          window.location.href = "/customer/bookings"
         }, 2000)
       } else {
         showError(response.message || "Terjadi kesalahan saat membuat booking")
@@ -476,7 +476,7 @@ function loadAvailableTimeSlots(serviceId, date) {
   if (!serviceId || !date) return
 
   $.ajax({
-    url: "/ajax/get_available_times.php",
+    url: "/ajax/get_available_times",
     method: "GET",
     data: {
       service_id: serviceId,

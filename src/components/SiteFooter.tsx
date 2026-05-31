@@ -31,8 +31,8 @@ export function SiteFooter() {
               <h3 className="text-white font-semibold text-lg">Tautan Cepat</h3>
               <ul className="space-y-2">
                 <li><a href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</a></li>
-                <li><a href="/search.php" className="text-gray-400 hover:text-white transition-colors">Cari Jasa</a></li>
-                <li><a href="/register.php?role=provider" className="text-gray-400 hover:text-white transition-colors">Jadi Provider</a></li>
+                <li><a href="/search" className="text-gray-400 hover:text-white transition-colors">Cari Jasa</a></li>
+                <li><a href="/register?role=provider" className="text-gray-400 hover:text-white transition-colors">Jadi Provider</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Tentang Kami</a></li>
               </ul>
             </div>
@@ -40,10 +40,10 @@ export function SiteFooter() {
             <div className="space-y-4">
               <h3 className="text-white font-semibold text-lg">Kategori</h3>
               <ul className="space-y-2">
-                <li><a href="/search.php?category=1" className="text-gray-400 hover:text-white transition-colors">Cleaning</a></li>
-                <li><a href="/search.php?category=2" className="text-gray-400 hover:text-white transition-colors">Repair</a></li>
-                <li><a href="/search.php?category=3" className="text-gray-400 hover:text-white transition-colors">Beauty</a></li>
-                <li><a href="/search.php?category=4" className="text-gray-400 hover:text-white transition-colors">Tutoring</a></li>
+                <li><a href="/search?category=1" className="text-gray-400 hover:text-white transition-colors">Cleaning</a></li>
+                <li><a href="/search?category=2" className="text-gray-400 hover:text-white transition-colors">Repair</a></li>
+                <li><a href="/search?category=3" className="text-gray-400 hover:text-white transition-colors">Beauty</a></li>
+                <li><a href="/search?category=4" className="text-gray-400 hover:text-white transition-colors">Tutoring</a></li>
               </ul>
             </div>
 

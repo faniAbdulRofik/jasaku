@@ -19,9 +19,9 @@ function normalizeBcryptHash(hash: string) {
 }
 
 function roleRedirect(role: UserRole) {
-  if (role === "admin") return "/admin/dashboard.php";
-  if (role === "provider") return "/provider/dashboard.php";
-  return "/customer/dashboard.php";
+  if (role === "admin") return "/admin/dashboard";
+  if (role === "provider") return "/provider/dashboard";
+  return "/customer/dashboard";
 }
 
 function slugify(value: string) {
@@ -65,11 +65,11 @@ export async function loginAction(formData: FormData) {
   const supabase = supabaseAdmin();
 
   if (!email || !password) {
-    redirect(`/login.php?error=${encodeMessage("Email dan password wajib diisi")}`);
+    redirect(`/login?error=${encodeMessage("Email dan password wajib diisi")}`);
   }
 
   if (!supabase) {
-    redirect(`/login.php?error=${encodeMessage("Supabase belum dikonfigurasi")}`);
+    redirect(`/login?error=${encodeMessage("Supabase belum dikonfigurasi")}`);
   }
 
   const { data: user } = await supabase
@@ -80,12 +80,12 @@ export async function loginAction(formData: FormData) {
     .maybeSingle();
 
   if (!user || !user.password) {
-    redirect(`/login.php?error=${encodeMessage("Email atau password salah")}`);
+    redirect(`/login?error=${encodeMessage("Email atau password salah")}`);
   }
 
   const ok = await bcrypt.compare(password, normalizeBcryptHash(user.password));
   if (!ok) {
-    redirect(`/login.php?error=${encodeMessage("Email atau password salah")}`);
+    redirect(`/login?error=${encodeMessage("Email atau password salah")}`);
   }
 
   await supabase.from("users").update({ updated_at: new Date().toISOString() }).eq("id", user.id);
@@ -114,28 +114,28 @@ export async function registerAction(formData: FormData) {
   const roleQuery = `role=${role}`;
 
   if (!supabase) {
-    redirect(`/register.php?${roleQuery}&error=${encodeMessage("Supabase belum dikonfigurasi")}`);
+    redirect(`/register?${roleQuery}&error=${encodeMessage("Supabase belum dikonfigurasi")}`);
   }
 
   if (!username || !email || !password || !fullName) {
-    redirect(`/register.php?${roleQuery}&error=${encodeMessage("Username, email, password, dan nama lengkap wajib diisi")}`);
+    redirect(`/register?${roleQuery}&error=${encodeMessage("Username, email, password, dan nama lengkap wajib diisi")}`);
   }
 
   if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-    redirect(`/register.php?${roleQuery}&error=${encodeMessage("Username hanya boleh mengandung huruf, angka, dan underscore")}`);
+    redirect(`/register?${roleQuery}&error=${encodeMessage("Username hanya boleh mengandung huruf, angka, dan underscore")}`);
   }
 
   if (password.length < 6) {
-    redirect(`/register.php?${roleQuery}&error=${encodeMessage("Password minimal 6 karakter")}`);
+    redirect(`/register?${roleQuery}&error=${encodeMessage("Password minimal 6 karakter")}`);
   }
 
   if (password !== confirmPassword) {
-    redirect(`/register.php?${roleQuery}&error=${encodeMessage("Password dan konfirmasi password tidak sama")}`);
+    redirect(`/register?${roleQuery}&error=${encodeMessage("Password dan konfirmasi password tidak sama")}`);
   }
 
   const { data: existing } = await supabase.from("users").select("id").eq("email", email).maybeSingle();
   if (existing) {
-    redirect(`/register.php?${roleQuery}&error=${encodeMessage("Email sudah terdaftar")}`);
+    redirect(`/register?${roleQuery}&error=${encodeMessage("Email sudah terdaftar")}`);
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
@@ -158,22 +158,22 @@ export async function registerAction(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/register.php?${roleQuery}&error=${encodeMessage(error.message)}`);
+    redirect(`/register?${roleQuery}&error=${encodeMessage(error.message)}`);
   }
 
-  redirect(`/register.php?${roleQuery}&success=${encodeMessage("Registrasi berhasil! Silakan login untuk melanjutkan.")}`);
+  redirect(`/register?${roleQuery}&success=${encodeMessage("Registrasi berhasil! Silakan login untuk melanjutkan.")}`);
 }
 
 export async function requestPasswordResetAction(formData: FormData) {
   const supabase = supabaseAdmin();
   const email = String(formData.get("email") || "").trim();
 
-  if (!supabase) redirect(`/forgot_password.php?error=${encodeMessage("Supabase belum dikonfigurasi")}`);
-  if (!email) redirect(`/forgot_password.php?error=${encodeMessage("Email wajib diisi")}`);
+  if (!supabase) redirect(`/forgot_password?error=${encodeMessage("Supabase belum dikonfigurasi")}`);
+  if (!email) redirect(`/forgot_password?error=${encodeMessage("Email wajib diisi")}`);
 
   const { data: user } = await supabase.from("users").select("email,full_name").eq("email", email).maybeSingle();
   if (!user) {
-    redirect(`/forgot_password.php?success=${encodeMessage("Jika email terdaftar, link reset akan disiapkan.")}`);
+    redirect(`/forgot_password?success=${encodeMessage("Jika email terdaftar, link reset akan disiapkan.")}`);
   }
 
   const token = crypto.randomUUID().replaceAll("-", "");
@@ -183,7 +183,7 @@ export async function requestPasswordResetAction(formData: FormData) {
     created_at: new Date().toISOString(),
   });
 
-  redirect(`/forgot_password.php?success=${encodeMessage(`Link reset siap: /reset_password.php?token=${token}`)}`);
+  redirect(`/forgot_password?success=${encodeMessage(`Link reset siap: /reset_password?token=${token}`)}`);
 }
 
 export async function resetPasswordAction(formData: FormData) {
@@ -192,22 +192,22 @@ export async function resetPasswordAction(formData: FormData) {
   const password = String(formData.get("password") || "");
   const confirmPassword = String(formData.get("confirm_password") || "");
 
-  if (!supabase) redirect(`/reset_password.php?token=${token}&error=${encodeMessage("Supabase belum dikonfigurasi")}`);
+  if (!supabase) redirect(`/reset_password?token=${token}&error=${encodeMessage("Supabase belum dikonfigurasi")}`);
   if (!token || !password || password.length < 6 || password !== confirmPassword) {
-    redirect(`/reset_password.php?token=${token}&error=${encodeMessage("Password baru tidak valid")}`);
+    redirect(`/reset_password?token=${token}&error=${encodeMessage("Password baru tidak valid")}`);
   }
 
   const { data: reset } = await supabase.from("password_reset_tokens").select("*").eq("token", token).maybeSingle();
-  if (!reset) redirect(`/reset_password.php?error=${encodeMessage("Token reset tidak valid")}`);
+  if (!reset) redirect(`/reset_password?error=${encodeMessage("Token reset tidak valid")}`);
 
   await supabase.from("users").update({ password: await bcrypt.hash(password, 12), updated_at: new Date().toISOString() }).eq("email", reset.email);
   await supabase.from("password_reset_tokens").delete().eq("email", reset.email);
-  redirect("/login.php?success=Password berhasil direset");
+  redirect("/login?success=Password berhasil direset");
 }
 
 export async function logoutAction() {
   await clearSessionUser();
-  redirect("/login.php?success=Logout berhasil");
+  redirect("/login?success=Logout berhasil");
 }
 
 export async function createBookingAction(formData: FormData) {
@@ -219,20 +219,20 @@ export async function createBookingAction(formData: FormData) {
   const notes = String(formData.get("notes") || "");
 
   if (!user || user.role !== "customer") {
-    redirect("/login.php?error=Anda harus login sebagai customer untuk melakukan booking");
+    redirect("/login?error=Anda harus login sebagai customer untuk melakukan booking");
   }
 
   if (!supabase) {
-    redirect(`/service_detail.php?id=${serviceId}&error=${encodeMessage("Supabase belum dikonfigurasi")}`);
+    redirect(`/service_detail?id=${serviceId}&error=${encodeMessage("Supabase belum dikonfigurasi")}`);
   }
 
   if (!bookingDate || !bookingTime) {
-    redirect(`/service_detail.php?id=${serviceId}&error=${encodeMessage("Tanggal dan waktu booking harus diisi")}`);
+    redirect(`/service_detail?id=${serviceId}&error=${encodeMessage("Tanggal dan waktu booking harus diisi")}`);
   }
 
   const { data: service } = await supabase.from("services").select("*").eq("id", serviceId).maybeSingle();
   if (!service) {
-    redirect(`/search.php?error=${encodeMessage("Layanan tidak ditemukan")}`);
+    redirect(`/search?error=${encodeMessage("Layanan tidak ditemukan")}`);
   }
 
   const now = new Date().toISOString();
@@ -252,10 +252,10 @@ export async function createBookingAction(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/service_detail.php?id=${serviceId}&error=${encodeMessage(error.message)}`);
+    redirect(`/service_detail?id=${serviceId}&error=${encodeMessage(error.message)}`);
   }
 
-  redirect("/customer/bookings.php?success=Booking berhasil dibuat!");
+  redirect("/customer/bookings?success=Booking berhasil dibuat!");
 }
 
 export async function updateBookingStatusAction(formData: FormData) {
@@ -266,7 +266,7 @@ export async function updateBookingStatusAction(formData: FormData) {
   const returnTo = String(formData.get("return_to") || "");
 
   if (!supabase || !user) {
-    redirect("/login.php?error=Anda harus login terlebih dahulu");
+    redirect("/login?error=Anda harus login terlebih dahulu");
   }
 
   const booking = await getBookingById(id);
@@ -275,11 +275,11 @@ export async function updateBookingStatusAction(formData: FormData) {
   }
 
   if (user.role === "provider" && booking.provider_id !== user.id) {
-    redirect("/provider/bookings.php?error=Anda tidak memiliki akses ke booking ini");
+    redirect("/provider/bookings?error=Anda tidak memiliki akses ke booking ini");
   }
 
   if (user.role === "customer" && booking.customer_id !== user.id) {
-    redirect("/customer/bookings.php?error=Anda tidak memiliki akses ke booking ini");
+    redirect("/customer/bookings?error=Anda tidak memiliki akses ke booking ini");
   }
 
   const updates: Record<string, string | null> = {
@@ -300,16 +300,16 @@ export async function saveReviewAction(formData: FormData) {
   const comment = String(formData.get("comment") || "").trim();
 
   if (!supabase || !user || user.role !== "customer") {
-    redirect("/login.php?error=Anda harus login sebagai customer");
+    redirect("/login?error=Anda harus login sebagai customer");
   }
 
   const booking = await getBookingById(bookingId);
   if (!booking || booking.customer_id !== user.id || booking.status !== "completed") {
-    redirect("/customer/reviews.php?error=Booking tidak valid untuk review");
+    redirect("/customer/reviews?error=Booking tidak valid untuk review");
   }
 
   if (rating < 1 || rating > 5) {
-    redirect("/customer/reviews.php?error=Rating wajib dipilih");
+    redirect("/customer/reviews?error=Rating wajib dipilih");
   }
 
   const now = new Date().toISOString();
@@ -325,8 +325,8 @@ export async function saveReviewAction(formData: FormData) {
     updated_at: now,
   });
 
-  if (error) redirect(`/customer/reviews.php?error=${encodeMessage(error.message)}`);
-  redirect("/customer/reviews.php?success=Review berhasil dikirim");
+  if (error) redirect(`/customer/reviews?error=${encodeMessage(error.message)}`);
+  redirect("/customer/reviews?success=Review berhasil dikirim");
 }
 
 export async function saveServiceAction(formData: FormData) {
@@ -341,10 +341,10 @@ export async function saveServiceAction(formData: FormData) {
   const duration = String(formData.get("duration") || "").trim();
   const location = String(formData.get("location") || "").trim();
   const status = String(formData.get("status") || "active");
-  const returnTo = String(formData.get("return_to") || "/provider/services.php");
+  const returnTo = String(formData.get("return_to") || "/provider/services");
 
   if (!supabase || !user) {
-    redirect("/login.php?error=Anda harus login terlebih dahulu");
+    redirect("/login?error=Anda harus login terlebih dahulu");
   }
 
   if (user.role !== "provider" && user.role !== "admin") {
@@ -397,9 +397,9 @@ export async function deleteServiceAction(formData: FormData) {
   const supabase = supabaseAdmin();
   const user = await getSessionUser();
   const id = Number(formData.get("id"));
-  const returnTo = String(formData.get("return_to") || "/provider/services.php");
+  const returnTo = String(formData.get("return_to") || "/provider/services");
 
-  if (!supabase || !user) redirect("/login.php?error=Anda harus login terlebih dahulu");
+  if (!supabase || !user) redirect("/login?error=Anda harus login terlebih dahulu");
   let query = supabase.from("services").delete().eq("id", id);
   if (user.role === "provider") query = query.eq("provider_id", user.id);
   await query;
@@ -409,9 +409,9 @@ export async function deleteServiceAction(formData: FormData) {
 export async function saveProfileAction(formData: FormData) {
   const supabase = supabaseAdmin();
   const user = await getSessionUser();
-  const returnTo = String(formData.get("return_to") || "/customer/settings.php");
+  const returnTo = String(formData.get("return_to") || "/customer/settings");
 
-  if (!supabase || !user) redirect("/login.php?error=Anda harus login terlebih dahulu");
+  if (!supabase || !user) redirect("/login?error=Anda harus login terlebih dahulu");
 
   const uploaded = await uploadImage(formData.get("profile_image") as File | null, "user");
   const payload: Record<string, string> = {
@@ -442,7 +442,7 @@ export async function adminSaveUserAction(formData: FormData) {
   const user = await getSessionUser();
   const id = Number(formData.get("id") || 0);
 
-  if (!supabase || user?.role !== "admin") redirect("/login.php?error=Anda tidak memiliki akses admin");
+  if (!supabase || user?.role !== "admin") redirect("/login?error=Anda tidak memiliki akses admin");
 
   const payload: Record<string, string> = {
     username: String(formData.get("username") || "").trim(),
@@ -469,7 +469,7 @@ export async function adminSaveUserAction(formData: FormData) {
     });
   }
 
-  redirect("/admin/users.php?success=User berhasil disimpan");
+  redirect("/admin/users?success=User berhasil disimpan");
 }
 
 export async function adminDeleteUserAction(formData: FormData) {
@@ -477,9 +477,9 @@ export async function adminDeleteUserAction(formData: FormData) {
   const user = await getSessionUser();
   const id = Number(formData.get("id"));
 
-  if (!supabase || user?.role !== "admin") redirect("/login.php?error=Anda tidak memiliki akses admin");
+  if (!supabase || user?.role !== "admin") redirect("/login?error=Anda tidak memiliki akses admin");
   await supabase.from("users").delete().eq("id", id);
-  redirect("/admin/users.php?success=User berhasil dihapus");
+  redirect("/admin/users?success=User berhasil dihapus");
 }
 
 export async function adminSaveCategoryAction(formData: FormData) {
@@ -488,8 +488,8 @@ export async function adminSaveCategoryAction(formData: FormData) {
   const id = Number(formData.get("id") || 0);
   const name = String(formData.get("name") || "").trim();
 
-  if (!supabase || user?.role !== "admin") redirect("/login.php?error=Anda tidak memiliki akses admin");
-  if (!name) redirect(`/admin/categories.php?error=${encodeMessage("Nama kategori harus diisi!")}`);
+  if (!supabase || user?.role !== "admin") redirect("/login?error=Anda tidak memiliki akses admin");
+  if (!name) redirect(`/admin/categories?error=${encodeMessage("Nama kategori harus diisi!")}`);
 
   const payload = {
     name,
@@ -502,13 +502,13 @@ export async function adminSaveCategoryAction(formData: FormData) {
 
   if (id) {
     const { error } = await supabase.from("categories").update(payload).eq("id", id);
-    if (error) redirect(`/admin/categories.php?error=${encodeMessage(error.code === "23505" ? "Nama kategori sudah ada!" : `Database error: ${error.message}`)}`);
+    if (error) redirect(`/admin/categories?error=${encodeMessage(error.code === "23505" ? "Nama kategori sudah ada!" : `Database error: ${error.message}`)}`);
   } else {
     const { error } = await supabase.from("categories").insert({ ...payload, created_at: new Date().toISOString() });
-    if (error) redirect(`/admin/categories.php?error=${encodeMessage(error.code === "23505" ? "Nama kategori sudah ada!" : `Database error: ${error.message}`)}`);
+    if (error) redirect(`/admin/categories?error=${encodeMessage(error.code === "23505" ? "Nama kategori sudah ada!" : `Database error: ${error.message}`)}`);
   }
 
-  redirect(`/admin/categories.php?success=${encodeMessage(id ? "Kategori berhasil disimpan" : "Kategori berhasil ditambahkan!")}`);
+  redirect(`/admin/categories?success=${encodeMessage(id ? "Kategori berhasil disimpan" : "Kategori berhasil ditambahkan!")}`);
 }
 
 export async function adminDeleteCategoryAction(formData: FormData) {
@@ -516,7 +516,7 @@ export async function adminDeleteCategoryAction(formData: FormData) {
   const user = await getSessionUser();
   const id = Number(formData.get("id"));
 
-  if (!supabase || user?.role !== "admin") redirect("/login.php?error=Anda tidak memiliki akses admin");
+  if (!supabase || user?.role !== "admin") redirect("/login?error=Anda tidak memiliki akses admin");
   await supabase.from("categories").delete().eq("id", id);
-  redirect("/admin/categories.php?success=Kategori berhasil dihapus");
+  redirect("/admin/categories?success=Kategori berhasil dihapus");
 }

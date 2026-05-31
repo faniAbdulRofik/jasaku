@@ -12,8 +12,8 @@ type BookingTableProps = {
 
 export function BookingTable({ bookings, role, returnTo, compact = false }: BookingTableProps) {
   const detailHref = (bookingId: number) => {
-    if (role === "provider") return `/provider/booking_detail.php?id=${bookingId}`;
-    if (role === "customer") return `/customer/booking_detail.php?id=${bookingId}`;
+    if (role === "provider") return `/provider/booking_detail?id=${bookingId}`;
+    if (role === "customer") return `/customer/booking_detail?id=${bookingId}`;
     return `${returnTo}?id=${bookingId}`;
   };
 
@@ -75,10 +75,10 @@ export function BookingTable({ bookings, role, returnTo, compact = false }: Book
                 {!compact && (
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex space-x-2">
-                      <a href={`/admin/booking_detail.php?id=${booking.id}`} className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors" title="Detail">
+                      <a href={`/admin/booking_detail?id=${booking.id}`} className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors" title="Detail">
                         <i className="fas fa-eye" />
                       </a>
-                      <a href={`/admin/booking_edit.php?id=${booking.id}`} className="p-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 transition-colors" title="Edit">
+                      <a href={`/admin/booking_edit?id=${booking.id}`} className="p-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 transition-colors" title="Edit">
                         <i className="fas fa-edit" />
                       </a>
                     </div>
@@ -219,7 +219,7 @@ export function BookingTable({ bookings, role, returnTo, compact = false }: Book
                       </form>
                     )}
                     {role === "customer" && booking.status === "completed" && (
-                      <a href={`/customer/reviews.php?booking_id=${booking.id}`} className="text-yellow-600 hover:text-yellow-800" title="Review">
+                      <a href={`/customer/reviews?booking_id=${booking.id}`} className="text-yellow-600 hover:text-yellow-800" title="Review">
                         <i className="fas fa-star" />
                       </a>
                     )}

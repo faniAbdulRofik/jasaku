@@ -10,7 +10,7 @@ type BookingDetailViewProps = {
 };
 
 export function BookingDetailView({ booking, role, backHref }: BookingDetailViewProps) {
-  const detailHref = `${role === "provider" ? "/provider" : "/customer"}/booking_detail.php?id=${booking.id}`;
+  const detailHref = `${role === "provider" ? "/provider" : "/customer"}/booking_detail?id=${booking.id}`;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -134,7 +134,7 @@ export function BookingDetailView({ booking, role, backHref }: BookingDetailView
             )}
 
             {role === "customer" && booking.status === "completed" && (
-              <a href={`/customer/reviews.php?booking_id=${booking.id}`} className="w-full flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600">
+              <a href={`/customer/reviews?booking_id=${booking.id}`} className="w-full flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600">
                 <i className="fas fa-star mr-2" /> Beri Review
               </a>
             )}
